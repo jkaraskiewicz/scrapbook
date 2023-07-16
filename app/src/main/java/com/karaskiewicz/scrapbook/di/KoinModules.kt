@@ -22,8 +22,8 @@ private val databaseModule = module {
 }
 
 private val viewModelsModule = module {
-  viewModel { ScrapListViewModel(get(), get()) }
-  viewModel { ScrapAddViewModel(get()) }
+  viewModel { ScrapListViewModel(get()) }
+  viewModel { ScrapAddViewModel(get(), get()) }
 }
 
 private val utilsModule = module {

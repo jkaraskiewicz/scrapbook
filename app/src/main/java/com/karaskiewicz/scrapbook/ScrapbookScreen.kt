@@ -34,6 +34,11 @@ fun NavGraph(navController: NavHostController) {
   NavHost(navController = navController, startDestination = "list") {
     composable(
       route = "list",
+    ) {
+      ScrapListScreen(navController)
+    }
+    composable(
+      route = "add",
       deepLinks = listOf(
         navDeepLink {
           action = Intent.ACTION_SEND
@@ -41,9 +46,6 @@ fun NavGraph(navController: NavHostController) {
         }
       )
     ) {
-      ScrapListScreen(navController)
-    }
-    composable(route = "add") {
       ScrapAddScreen(navController)
     }
   }

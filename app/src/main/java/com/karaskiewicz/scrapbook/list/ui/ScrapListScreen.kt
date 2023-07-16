@@ -73,10 +73,6 @@ fun ScrapListScreen(
       ScrapList(state.scraps, onItemDeleted)
     }
   }
-
-  if (state.sharedScrapText.isNotEmpty()) {
-    navController.navigate("add")
-  }
 }
 
 @Composable
