@@ -3,6 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <application
+    android:name=".ScrapbookApp"
     android:allowBackup="true"
     android:dataExtractionRules="@xml/data_extraction_rules"
     android:fullBackupContent="@xml/backup_rules"
@@ -13,16 +14,18 @@
     android:theme="@style/Theme.Scrapbook"
     tools:targetApi="31">
     <activity
-      android:name=".MainActivity"
+      android:name=".ScrapbookActivity"
       android:exported="true"
-      android:label="@string/app_name"
       android:theme="@style/Theme.Scrapbook">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-
         <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.SEND" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="text/*" />
       </intent-filter>
     </activity>
   </application>
-
 </manifest>
