@@ -7,21 +7,26 @@ import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
+import com.karaskiewicz.scrapbook.car.viewmodel.ScrapbookCarViewModel
 import com.karaskiewicz.scrapbook.common.data.ScrapData
-import com.karaskiewicz.scrapbook.database.repository.ScrapRepository
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
 
 class ScrapbookCarScreen(carContext: CarContext) : Screen(carContext) {
 
   private var scraps: List<ScrapData> = emptyList()
 
-  private val scrapRepository by inject<ScrapRepository>(ScrapRepository::class.java)
+  private val scrapbookCarViewModel: ScrapbookCarViewModel by inject(ScrapbookCarViewModel::class.java) {
+    parametersOf(
+      this
+    )
+  }
 
   init {
     lifecycleScope.launch {
-      scrapRepository.scraps.collect {
-        scraps = it
+      scrapbookCarViewModel.state.collect {
+        scraps = it.scraps
         invalidate()
       }
     }
@@ -29,7 +34,7 @@ class ScrapbookCarScreen(carContext: CarContext) : Screen(carContext) {
 
   override fun onGetTemplate(): Template {
     val itemListBuilder = ItemList.Builder()
-      .setNoItemsMessage("No scraps")
+      .setNoItemsMessage("No scraps!")
 
     scraps.forEach {
       val row = Row.Builder()

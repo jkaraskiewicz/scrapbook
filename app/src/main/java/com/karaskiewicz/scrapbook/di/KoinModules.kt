@@ -1,7 +1,9 @@
 package com.karaskiewicz.scrapbook.di
 
+import androidx.car.app.Screen
 import androidx.room.Room
 import com.karaskiewicz.scrapbook.add.viewmodel.ScrapAddViewModel
+import com.karaskiewicz.scrapbook.car.viewmodel.ScrapbookCarViewModel
 import com.karaskiewicz.scrapbook.database.MockDatabaseHelper
 import com.karaskiewicz.scrapbook.database.ScrapDatabase
 import com.karaskiewicz.scrapbook.database.repository.ScrapRepository
@@ -24,6 +26,7 @@ private val databaseModule = module {
 private val viewModelsModule = module {
   viewModel { ScrapListViewModel(get()) }
   viewModel { ScrapAddViewModel(get(), get()) }
+  single { (carScreen: Screen) -> ScrapbookCarViewModel(get(), carScreen) }
 }
 
 private val utilsModule = module {
