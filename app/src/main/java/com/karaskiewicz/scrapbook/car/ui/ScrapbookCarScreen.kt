@@ -38,6 +38,7 @@ class ScrapbookCarScreen(carContext: CarContext) : Screen(carContext) {
 
     scraps.forEach {
       val row = Row.Builder()
+        .setOnClickListener { screenManager.push(ScrapbookCarDetailsScreen(it, carContext)) }
         .setTitle(it.text)
         .build()
 
