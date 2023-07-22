@@ -1,5 +1,7 @@
 package com.karaskiewicz.scrapbook.add.ui
 
+import android.content.Intent
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,8 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.karaskiewicz.scrapbook.add.viewmodel.ScrapAddViewModel
+import com.karaskiewicz.scrapbook.common.parseSharedContent
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,8 +40,22 @@ fun ScrapAddScreen(
 ) {
   val state by scrapAddViewModel.state.collectAsState()
 
+  val backPressedHandler = {
+    scrapAddViewModel.saveScrap()
+    navController.popBackStack()
+  }
+
   val onTextChanged =
     { newTextContent: String -> scrapAddViewModel.updateTextContent(newTextContent) }
+
+  BackHandler {
+    backPressedHandler()
+  }
+
+  navController.currentBackStackEntry?.arguments?.getParcelable<Intent>(NavController.KEY_DEEP_LINK_INTENT)
+    ?.let {
+      scrapAddViewModel.onContentShared(it.parseSharedContent())
+    }
 
   Scaffold(
     topBar = {
@@ -48,8 +66,7 @@ fun ScrapAddScreen(
         navigationIcon = {
           IconButton(
             onClick = {
-              scrapAddViewModel.saveScrap()
-              navController.popBackStack()
+              backPressedHandler()
             }
           ) {
             Icon(Icons.Filled.ArrowBack, "Go back")
@@ -79,6 +96,9 @@ fun ScrapAddContent(content: String, onTextChanged: (String) -> Unit) {
 
   TextField(
     value = content,
+    placeholder = {
+      Text("Type here!")
+    },
     onValueChange = {
       onTextChanged(it)
     },

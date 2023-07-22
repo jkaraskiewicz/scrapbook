@@ -17,9 +17,8 @@ import com.karaskiewicz.scrapbook.list.ui.ScrapListScreen
 import com.karaskiewicz.scrapbook.ui.theme.ScrapbookTheme
 
 @Composable
-fun ScrapbookScreen() {
+fun ScrapbookScreen(navController: NavHostController) {
   ScrapbookTheme {
-    val navController = rememberNavController()
     Surface(
       modifier = Modifier.fillMaxSize(),
       color = MaterialTheme.colorScheme.background
@@ -55,6 +54,7 @@ fun NavGraph(navController: NavHostController) {
 @Composable
 fun ScrapbookScreenPreview() {
   ScrapbookTheme {
-    ScrapbookScreen()
+    val navController = rememberNavController()
+    ScrapbookScreen(navController)
   }
 }
