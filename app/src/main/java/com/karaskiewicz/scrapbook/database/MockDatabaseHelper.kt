@@ -2,6 +2,7 @@ package com.karaskiewicz.scrapbook.database
 
 import com.karaskiewicz.scrapbook.common.data.ScrapData
 import com.karaskiewicz.scrapbook.database.repository.ScrapRepository
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ class MockDatabaseHelper(private val scrapRepository: ScrapRepository) {
     ScrapData(text = "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?"),
   )
 
+  @OptIn(DelicateCoroutinesApi::class)
   fun injectFakeScraps() {
     GlobalScope.launch {
       val scrapsCount = scrapRepository.scrapsCount.first()

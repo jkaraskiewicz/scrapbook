@@ -54,7 +54,7 @@ fun ScrapListScreen(
           Text(text = "Scrapbook")
         },
         modifier = Modifier.statusBarsPadding(),
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
           containerColor = MaterialTheme.colorScheme.tertiaryContainer
         )
       )
@@ -109,7 +109,7 @@ fun ScrapList(
     verticalArrangement = Arrangement.spacedBy(8.dp),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
-    items(scraps) {
+    items(scraps, key = { it.uuid }) {
       ScrapRow(it, onItemDeleted)
     }
   }

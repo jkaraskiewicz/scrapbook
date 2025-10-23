@@ -9,14 +9,14 @@ import com.karaskiewicz.scrapbook.database.MockDatabaseHelper
 import com.karaskiewicz.scrapbook.database.ScrapDatabase
 import com.karaskiewicz.scrapbook.database.repository.ScrapRepository
 import com.karaskiewicz.scrapbook.list.viewmodel.ScrapListViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
 private val databaseModule = module {
   single {
     Room.databaseBuilder(get(), ScrapDatabase::class.java, "scraps")
-      .fallbackToDestructiveMigration()
+      .fallbackToDestructiveMigration(dropAllTables = true)
       .build()
   }
   single {

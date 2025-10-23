@@ -2,6 +2,7 @@ package com.karaskiewicz.scrapbook.car.ui
 
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
+import androidx.car.app.model.Header
 import androidx.car.app.model.ItemList
 import androidx.car.app.model.ListTemplate
 import androidx.car.app.model.Row
@@ -45,9 +46,13 @@ class ScrapbookCarScreen(carContext: CarContext) : Screen(carContext) {
       itemListBuilder.addItem(row)
     }
 
+    val header = Header.Builder()
+      .setTitle("Scrapbook")
+      .build()
+
     return ListTemplate.Builder()
       .setSingleList(itemListBuilder.build())
-      .setTitle("Scrapbook")
+      .setHeader(header)
       .build()
   }
 }

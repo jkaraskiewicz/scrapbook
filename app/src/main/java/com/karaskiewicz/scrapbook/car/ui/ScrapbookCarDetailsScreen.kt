@@ -3,7 +3,7 @@ package com.karaskiewicz.scrapbook.car.ui
 import androidx.car.app.CarContext
 import androidx.car.app.Screen
 import androidx.car.app.model.Action
-import androidx.car.app.model.ActionStrip
+import androidx.car.app.model.Header
 import androidx.car.app.model.MessageTemplate
 import androidx.car.app.model.Template
 import androidx.lifecycle.lifecycleScope
@@ -44,14 +44,13 @@ class ScrapbookCarDetailsScreen(
       .setOnClickListener { scrapbookCarDetailsViewModel.deleteScrap(scrapData) }
       .build()
 
+    val header = Header.Builder()
+      .setStartHeaderAction(Action.BACK)
+      .addEndHeaderAction(deleteAction)
+      .build()
+
     return MessageTemplate.Builder(scrapData.text)
-      .setTitle("Scrapbook")
-      .setActionStrip(
-        ActionStrip.Builder()
-          .addAction(Action.BACK)
-          .addAction(deleteAction)
-          .build()
-      )
+      .setHeader(header)
       .build()
   }
 }

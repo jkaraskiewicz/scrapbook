@@ -1,13 +1,15 @@
 package com.karaskiewicz.scrapbook.add.ui
 
 import android.content.Intent
+import android.os.Build
+import androidx.core.os.bundleOf
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -52,7 +54,17 @@ fun ScrapAddScreen(
     backPressedHandler()
   }
 
-  navController.currentBackStackEntry?.arguments?.getParcelable<Intent>(NavController.KEY_DEEP_LINK_INTENT)
+  @Suppress("DEPRECATION")
+  val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    navController.currentBackStackEntry?.arguments?.getParcelable(
+      NavController.KEY_DEEP_LINK_INTENT,
+      Intent::class.java
+    )
+  } else {
+    navController.currentBackStackEntry?.arguments?.getParcelable(NavController.KEY_DEEP_LINK_INTENT)
+  }
+  
+  intent
     ?.let {
       scrapAddViewModel.onContentShared(it.parseSharedContent())
     }
@@ -69,11 +81,11 @@ fun ScrapAddScreen(
               backPressedHandler()
             }
           ) {
-            Icon(Icons.Filled.ArrowBack, "Go back")
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, "Go back")
           }
         },
         modifier = Modifier.statusBarsPadding(),
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
           containerColor = MaterialTheme.colorScheme.tertiaryContainer
         )
       )

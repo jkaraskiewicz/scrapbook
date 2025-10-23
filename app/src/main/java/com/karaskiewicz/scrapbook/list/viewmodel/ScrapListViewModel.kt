@@ -26,6 +26,11 @@ class ScrapListViewModel(
   }
 
   fun deleteScrap(scrapData: ScrapData) = viewModelScope.launch {
-    scrapRepository.delete(scrapData)
+    try {
+      scrapRepository.delete(scrapData)
+    } catch (e: Exception) {
+      timber.log.Timber.e(e, "Failed to delete scrap: ${scrapData.uuid}")
+      // The Flow will continue to emit the current state, so UI won't show the item as deleted
+    }
   }
 }

@@ -24,8 +24,14 @@ class ScrapbookCarDetailsViewModel(
 
   fun deleteScrap(scrapData: ScrapData) {
     lifecycleScope.launch {
-      scrapRepository.delete(scrapData)
-      _state.value = ScrapbookCarDetailsState.NavigateBackActionState
+      try {
+        scrapRepository.delete(scrapData)
+        _state.value = ScrapbookCarDetailsState.NavigateBackActionState
+      } catch (e: Exception) {
+        timber.log.Timber.e(e, "Failed to delete scrap: ${scrapData.uuid}")
+        // Don't navigate back if deletion failed, keep showing the screen
+        // In a production app, you might want to show an error state here
+      }
     }
   }
 }
